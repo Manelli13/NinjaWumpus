@@ -39,12 +39,21 @@ public class PanneauPlateau extends JPanel {
 			}
 		}
 		this.setVisible(true);
+		this.deplacerAgent(0, 0);
 	}
 
 	public PanneauPlateau() {
 
 	}
-
+	public void deplacerAgent(int newPosX, int newPosY){
+		int oldPosX=this.p.getAgent().getPosX();
+		int oldPosY = this.p.getAgent().getPosY();
+		this.p.deplacerAgent(newPosX, newPosY);
+		
+		this.Skin(oldPosX, oldPosY);
+		this.Skin(newPosX, newPosY);
+		this.refresh();
+	}
 	public void setPanneauPlateau(Plateau p) {
 		this.p = p;
 		this.buttons = new JButton[this.p.getSize()][this.p.getSize()];

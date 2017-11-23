@@ -102,6 +102,9 @@ public class Plateau {
 	public void setSize(int size) {
 		this.size = size;
 	}
+	public Joueur getAgent(){
+		return this.agent;
+	}
 	public Wumpus getWumpus() {
 		return wumpus;
 	}
