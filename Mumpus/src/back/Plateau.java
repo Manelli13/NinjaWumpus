@@ -82,6 +82,31 @@ public class Plateau {
 		}
 	}
 	
+	
+	
+	
+	public Case[] generateVoisin(Case c) {
+		Case [] tabVoisin = new Case[4];
+		
+		for(Case ca : cases) {
+			if(ca.getPosX() == c.getPosX()-1 && ca.getPosY() == c.getPosY()){
+				tabVoisin[0]=ca;
+			}
+			if(ca.getPosX() == c.getPosX()-1 && ca.getPosY() == c.getPosY()+1){
+				tabVoisin[1]=ca;	
+			}
+			if(ca.getPosX() == c.getPosX()+1 && ca.getPosY() == c.getPosY()+1){
+				tabVoisin[2]=ca;
+			}
+			if(ca.getPosX() == c.getPosX() && ca.getPosY() == c.getPosY()-1){
+				tabVoisin[3]=ca;
+			}
+
+		}
+		
+		return tabVoisin;
+	}
+	
 	//_________________________________________GETSET
 	public ArrayList<Case> getCases() {
 		return cases;
