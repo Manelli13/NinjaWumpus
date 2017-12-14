@@ -13,6 +13,12 @@ public class Plateau {
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
+		try {
+			ArrayList<Case> soluce = this.resolveMumpus(findFirstCase());
+		} catch (Exception e){
+			
+		}
+		
 	}
 	
 	public void placerMur(){
@@ -140,32 +146,39 @@ public class Plateau {
 	
 	
 	public ArrayList<Case> resolveMumpus(Case c) {
+		System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 		
 		if(c.isTresor()) {
-			System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 			return this.cheminDijkstra;
 		}else{
 		
 		Case[] voisin = generateVoisin(c);
 		
-			if (!voisin[0].isMurBas() && !voisin[0].isMurDroit() && !voisin[0].isMurGauche() && !voisin[0].isMurHaut() && !voisin[0].isPuit() && !voisin[0].isWumpus()) {
+			if (voisin[0] != null && !voisin[0].isPuit() && !voisin[0].isWumpus()) {
 				this.cheminDijkstra.add(c);
-				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[0]);
-			}else if (!voisin[1].isMurBas() && !voisin[1].isMurDroit() && !voisin[1].isMurGauche() && !voisin[1].isMurHaut() && !voisin[1].isPuit()&& !voisin[1].isWumpus()){
+			}else if (voisin[1] != null &&  !voisin[1].isPuit()&& !voisin[1].isWumpus()){
 				this.cheminDijkstra.add(c);
-				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[1]);
-			}else if (!voisin[2].isMurBas() && !voisin[2].isMurDroit() && !voisin[2].isMurGauche() && !voisin[2].isMurHaut() && !voisin[2].isPuit()&& !voisin[2].isWumpus()){
+			}else if (voisin[2] != null && !voisin[2].isPuit()&& !voisin[2].isWumpus()){
 				this.cheminDijkstra.add(c);
-				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[2]);
 			}else{
 				this.cheminDijkstra.add(c);
-				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[3]);
 			}
 		}
+	}
+	
+	public Case findFirstCase() {
+		Case firstCase = new Case();
+		for(Case c : cases) {
+			if(c.getPosX() == this.size-1 && c.getPosY()==0) {
+				firstCase = c;
+			}
+			
+		}
+		return firstCase;
 	}
 	
 	
