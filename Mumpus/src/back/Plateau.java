@@ -5,9 +5,11 @@ public class Plateau {
 	private ArrayList<Case> cases;
 	private int size;
 	private Joueur agent;
+	private ArrayList<Case> cheminDijkstra;
 	public Plateau (int size){
 		this.size=size;
 		this.cases=new ArrayList();
+		this.cheminDijkstra=new ArrayList<Case>();
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
@@ -135,6 +137,37 @@ public class Plateau {
 		
 		return tabVoisin;
 	}
+	
+	
+	public ArrayList<Case> resolveMumpus(Case c) {
+		
+		if(c.isTresor()) {
+			System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+			return this.cheminDijkstra;
+		}else{
+		
+		Case[] voisin = generateVoisin(c);
+		
+			if (!voisin[0].isMurBas() && !voisin[0].isMurDroit() && !voisin[0].isMurGauche() && !voisin[0].isMurHaut() && !voisin[0].isPuit()) {
+				this.cheminDijkstra.add(c);
+				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+				return resolveMumpus(voisin[0]);
+			}else if (!voisin[1].isMurBas() && !voisin[1].isMurDroit() && !voisin[1].isMurGauche() && !voisin[1].isMurHaut() && !voisin[1].isPuit()){
+				this.cheminDijkstra.add(c);
+				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+				return resolveMumpus(voisin[1]);
+			}else if (!voisin[2].isMurBas() && !voisin[2].isMurDroit() && !voisin[2].isMurGauche() && !voisin[2].isMurHaut() && !voisin[2].isPuit()){
+				this.cheminDijkstra.add(c);
+				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+				return resolveMumpus(voisin[2]);
+			}else{
+				this.cheminDijkstra.add(c);
+				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+				return resolveMumpus(voisin[3]);
+			}
+		}
+	}
+	
 	
 	//_________________________________________GETSET
 	public ArrayList<Case> getCases() {
