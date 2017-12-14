@@ -148,15 +148,15 @@ public class Plateau {
 		
 		Case[] voisin = generateVoisin(c);
 		
-			if (!voisin[0].isMurBas() && !voisin[0].isMurDroit() && !voisin[0].isMurGauche() && !voisin[0].isMurHaut() && !voisin[0].isPuit()) {
+			if (!voisin[0].isMurBas() && !voisin[0].isMurDroit() && !voisin[0].isMurGauche() && !voisin[0].isMurHaut() && !voisin[0].isPuit() && !voisin[0].isWumpus()) {
 				this.cheminDijkstra.add(c);
 				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[0]);
-			}else if (!voisin[1].isMurBas() && !voisin[1].isMurDroit() && !voisin[1].isMurGauche() && !voisin[1].isMurHaut() && !voisin[1].isPuit()){
+			}else if (!voisin[1].isMurBas() && !voisin[1].isMurDroit() && !voisin[1].isMurGauche() && !voisin[1].isMurHaut() && !voisin[1].isPuit()&& !voisin[1].isWumpus()){
 				this.cheminDijkstra.add(c);
 				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[1]);
-			}else if (!voisin[2].isMurBas() && !voisin[2].isMurDroit() && !voisin[2].isMurGauche() && !voisin[2].isMurHaut() && !voisin[2].isPuit()){
+			}else if (!voisin[2].isMurBas() && !voisin[2].isMurDroit() && !voisin[2].isMurGauche() && !voisin[2].isMurHaut() && !voisin[2].isPuit()&& !voisin[2].isWumpus()){
 				this.cheminDijkstra.add(c);
 				System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
 				return resolveMumpus(voisin[2]);
