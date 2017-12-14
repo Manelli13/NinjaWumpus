@@ -112,6 +112,18 @@ public class PanneauPlateau extends JPanel {
 			c = new ImageIcon("Mur_g.png");
 			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
 		}
+		if(p.getCase(i, j).isWumpus()){
+			c = new ImageIcon("wumpus.png");
+			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+		}
+		if(p.getCase(i, j).isPuit()){
+			c = new ImageIcon("puit.png");
+			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+		}
+		if(p.getCase(i, j).isTresor()){
+			c = new ImageIcon("tresor.png");
+			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+		}
 		if(i==this.p.getSize()-1&&j==0){
 			c = new ImageIcon("Pion_rouge.png");
 			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
