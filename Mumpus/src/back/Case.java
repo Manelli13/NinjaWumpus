@@ -9,9 +9,14 @@ public class Case {
 	private boolean murBas;
 	private boolean puit;
 	private boolean tresor;
+	private boolean wumpus;
 	
 	
-	public Case(int posX, int posY, boolean murDroit, boolean murGauche, boolean murHaut, boolean murBas, boolean puit, boolean tresor) {
+	public Case() {
+
+	}
+
+	public Case(int posX, int posY, boolean murDroit, boolean murGauche, boolean murHaut, boolean murBas, boolean puit, boolean tresor, boolean wumpus) {
 		this.posX = posX;
 		this.posY = posY;
 		this.murDroit = murDroit;
@@ -20,6 +25,7 @@ public class Case {
 		this.murBas = murBas;
 		this.puit = puit;
 		this.tresor = tresor;
+		this.wumpus = wumpus;
 	}
 
 	public boolean diffuserBrise(){
@@ -28,6 +34,10 @@ public class Case {
 	
 	public boolean diffuserLueur(){
 		return tresor;
+	}
+	
+	public boolean diffuserOdeur(){
+		return wumpus;
 	}
 
 	public int getPosX() {
@@ -85,7 +95,7 @@ public class Case {
 	public void setPuit(boolean puit) {
 		this.puit = puit;
 	}
-
+	
 	public boolean isTresor() {
 		return tresor;
 	}
@@ -93,5 +103,14 @@ public class Case {
 	public void setTresor(boolean tresor) {
 		this.tresor = tresor;
 	}
+	
+	public boolean isWumpus() {
+		return wumpus;
+	}
+
+	public void setWumpus(boolean wumpus) {
+		this.wumpus = wumpus;
+	}
+
 	
 }

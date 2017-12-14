@@ -4,7 +4,6 @@ import java.util.ArrayList;
 public class Plateau {
 	private ArrayList<Case> cases;
 	private int size;
-	private Wumpus wumpus;
 	private Joueur agent;
 	public Plateau (int size){
 		this.size=size;
@@ -12,7 +11,6 @@ public class Plateau {
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
-		this.wumpus= new Wumpus((int)Math.random()*(size-0),(int)Math.random()*(size-0));
 	}
 	
 	public void placerMur(){
@@ -29,8 +27,8 @@ public class Plateau {
 		}
 	}
 	public void deplacerAgent(int newPosX, int newPosY){
-		int wPosX = this.wumpus.getPosX();
-		int wPosY = this.wumpus.getPosY();
+		int wPosX = findWumpus().getPosX();
+		int wPosY = findWumpus().getPosY();
 		Case c = this.getCase(newPosX, newPosY);
 		if(wPosX==newPosX&&wPosY==newPosY)
 			this.agent.capteurMort();
@@ -57,31 +55,61 @@ public class Plateau {
 		int nbPuit=this.size-1;
 		double generatePuit=0;
 		double generateTresor = 0;
+		double generateWumpus = 0;
+		int coefPuit=0;
+		int coefWumpus=0;
+		int coefTresor=0;
+		
 		int nbTresor=1;
+		int nbWumpus=1;
 		for(int i=0; i<size; i++){
 			for(int j=0; j<size; j++){
-				generatePuit=generatePuit+Math.random()*(1-0);
-				if(nbPuit>0&&generatePuit<0.5){
-					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/));
+				
+				generatePuit=Math.random()*(1-0)+coefPuit;
+				generateTresor=Math.random()*(1-0)+coefTresor;
+				generateWumpus=Math.random()*(1-0)+coefWumpus;
+					
+				if(nbPuit>0 &&generatePuit<0.5){
+					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/));
 					nbPuit--;
 					generatePuit=0;
+					coefPuit=0;
 				}
 				else if(nbTresor>0&&generateTresor<0.30){
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/));
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/));
 					generateTresor=0;
 					nbTresor--;
+					coefTresor=0;
+				}
+				else if(nbWumpus > 0 && generateWumpus < 0.30){
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/));
+					generateWumpus=0;
+					nbWumpus--;
+					coefWumpus=0;
 				}
 				else{
-					generatePuit-=0.10;
-					generateTresor-=0.10;
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/));
-				}
 					
+					coefPuit-=0.10;
+					coefWumpus-=0.10;
+					coefTresor-=0.10;
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/));
+				}
 				
 			}
 		}
 	}
 	
+	
+	public Case findWumpus(){
+		
+		Case cwumpus = new Case();
+		for(Case c : cases){
+			if(c.isWumpus() == true)
+				cwumpus = c;
+		}
+
+		return cwumpus;
+	}
 	
 	
 	
@@ -131,10 +159,5 @@ public class Plateau {
 	public Joueur getAgent(){
 		return this.agent;
 	}
-	public Wumpus getWumpus() {
-		return wumpus;
-	}
-	public void setWumpus(Wumpus wumpus) {
-		this.wumpus = wumpus;
-	}
+
 }
