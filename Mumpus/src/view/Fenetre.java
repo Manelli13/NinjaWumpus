@@ -19,10 +19,19 @@ public class Fenetre extends JFrame{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.width = (int)screenSize.getWidth();
 		this.height = (int)screenSize.getHeight();
-		this.setSize(width,height-(height-950));
+		this.setSize(410,430);
+		//this.setSize(width,height-(height-950));
 		this.setVisible(true);
-		this.plateau=new Plateau(4);
-		this.setContentPane(new PanneauPlateau(plateau, this));
+		//this.plateau=new Plateau(4);
+		this.setContentPane(new PanneauMenu(this));
+		//this.setContentPane(new PanneauPlateau(plateau, this));
+	}
+	
+	public void lancerPartie(int platesize, int height, int width) {
+		this.plateau=new Plateau(platesize);
+		PanneauPlateau pan =new PanneauPlateau(plateau, this);
+		pan.setSize(400,400);
+		this.setContentPane(pan);
 	}
 	public static void main (String[] args){
 		Fenetre fen = new Fenetre();

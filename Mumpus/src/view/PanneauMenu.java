@@ -101,7 +101,7 @@ public class PanneauMenu extends JPanel implements ActionListener{
 				this.taillePlateau=7;
 			if (this.taillePlateau>30)
 				this.taillePlateau=30;
-			//this.fen.lancerPartie(this.taillePlateau, this.getWidth(),this.getHeight());
+			this.fen.lancerPartie(this.taillePlateau, this.getWidth(),this.getHeight());
 		}
 		if (e.getSource()==config){
 			this.removeAll();

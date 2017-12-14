@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,7 +26,7 @@ public class PanneauPlateau extends JPanel {
 		this.plat = plat;
 		this.p = p;
 		this.buttons = new JButton[this.p.getSize()][this.p.getSize()];
-		this.setSize(400, 400);
+		this.setSize(400,400);
 		this.setLayout(new GridLayout(this.p.getSize(), this.p.getSize()));
 
 		// Generation des cases du plateau
