@@ -1,10 +1,13 @@
 package back;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Plateau {
+public class Plateau  {
 	private ArrayList<Case> cases;
 	private int size;
 	private Joueur agent;
+
 	private ArrayList<Case> cheminDijkstra;
 	public Plateau (int size){
 		this.size=size;
@@ -13,11 +16,7 @@ public class Plateau {
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
-		try {
-			ArrayList<Case> soluce = this.resolveMumpus(findFirstCase());
-		} catch (Exception e){
-			
-		}
+		
 		
 	}
 	
@@ -60,7 +59,7 @@ public class Plateau {
 	
 	
 	public void generateCase(){
-		int nbPuit=this.size-1;
+		double nbPuit=this.size-1;
 		double generatePuit=0;
 		double generateTresor = 0;
 		double generateWumpus = 0;
@@ -77,35 +76,38 @@ public class Plateau {
 				generateTresor=Math.random()*(1-0)+coefTresor;
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
-				if(nbPuit>0 &&generatePuit<0.5){
+				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0){
 					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/));
 					nbPuit--;
 					generatePuit=0;
-					coefPuit=0;
+					//coefPuit=0;
 				}
-				else if(nbTresor>0&&generateTresor<0.30){
+				else if(nbTresor>0&&generateTresor<0.05 && i != size && j != 0){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/));
 					generateTresor=0;
 					nbTresor--;
-					coefTresor=0;
+					//coefTresor=0;
 				}
-				else if(nbWumpus > 0 && generateWumpus < 0.30){
+				else if(nbWumpus > 0 && generateWumpus < 0.05 && i != size && j != 0 ){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/));
 					generateWumpus=0;
 					nbWumpus--;
-					coefWumpus=0;
+					//coefWumpus=0;
 				}
 				else{
 					
-					coefPuit-=0.10;
-					coefWumpus-=0.10;
-					coefTresor-=0.10;
+					coefPuit-= 1 / size ;
+					coefWumpus-=1 / size;
+					coefTresor-=1 / size;
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/));
 				}
 				
 			}
+			
+
 		}
-	}
+		
+		}
 	
 	
 	public Case findWumpus(){
@@ -182,6 +184,23 @@ public class Plateau {
 	}
 	
 	
+
+
+
+	 /*   if(keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]){
+	        p.y -= 5;
+	    }
+
+	    if(keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]){
+	        p.x += 5;
+	    }
+
+	    if(keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+	        p.x -= 5;
+	    }*/
+	
+	
+	
 	//_________________________________________GETSET
 	public ArrayList<Case> getCases() {
 		return cases;
@@ -205,5 +224,6 @@ public class Plateau {
 	public Joueur getAgent(){
 		return this.agent;
 	}
+
 
 }
