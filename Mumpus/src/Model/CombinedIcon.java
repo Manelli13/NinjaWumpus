@@ -28,6 +28,14 @@ public class CombinedIcon extends ImageIcon implements Icon {
      void remove(Icon i) {
          icons.remove(i);
      }
+     
+     public void removeLast() {
+    	 icons.remove(icons.size() - 1);
+     }
+     
+     public ImageIcon getLastImageIcon() {
+    	 return (ImageIcon) icons.get(icons.size() - 1);
+     }
 
      //Affiche toutes les images de l'icone une par une
      public void paintIcon(Component c, Graphics g, int x, int y) {

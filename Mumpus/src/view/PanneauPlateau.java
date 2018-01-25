@@ -2,6 +2,10 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.ImageIcon;
@@ -37,22 +41,38 @@ public class PanneauPlateau extends JPanel {
 				ci = Skin(i, j);
 				this.buttons[i][j].setIcon(ci);
 				this.add(this.buttons[i][j]);
+				this.buttons[i][j].addMouseListener(new MouseAdapter() {
+				     public void mousePressed(MouseEvent e) {
+				    	JButton a = (JButton) e.getSource();
+					    //System.out.println(a.getX()/a.getWidth());
+				        deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
+				     }
+				  });
 			}
 		}
 		this.setVisible(true);
 		this.deplacerAgent(0, 0);
+
+		System.out.println("Nope");
 	}
 
 	public PanneauPlateau() {
-
+		
 	}
 	public void deplacerAgent(int newPosX, int newPosY){
 		int oldPosX=this.p.getAgent().getPosX();
 		int oldPosY = this.p.getAgent().getPosY();
-		this.p.deplacerAgent(newPosX, newPosY);
+		this.p.deplacerAgent(newPosY, newPosX);
 		
-		this.Skin(oldPosX, oldPosY);
-		this.Skin(newPosX, newPosY);
+		CombinedIcon cio = (CombinedIcon) this.buttons[oldPosX][oldPosY].getIcon();
+		
+		CombinedIcon ci = (CombinedIcon) this.buttons[newPosY][newPosX].getIcon();
+		ci.add(cio.getLastImageIcon(), this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+				
+		cio.removeLast();
+		
+		this.setSkinAfterMovement(ci, newPosY, newPosX);
+		this.setSkinAfterMovement(cio, oldPosX, oldPosY);
 		this.refresh();
 	}
 	public void setPanneauPlateau(Plateau p) {
