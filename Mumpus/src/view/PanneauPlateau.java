@@ -42,12 +42,12 @@ public class PanneauPlateau extends JPanel {
 				this.buttons[i][j].setIcon(ci);
 				this.add(this.buttons[i][j]);
 				this.buttons[i][j].addMouseListener(new MouseAdapter() {
-				     public void mousePressed(MouseEvent e) {
-				    	JButton a = (JButton) e.getSource();
-					    //System.out.println(a.getX()/a.getWidth());
-				        deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
-				     }
-				  });
+					public void mousePressed(MouseEvent e) {
+						JButton a = (JButton) e.getSource();
+						//System.out.println(a.getX()/a.getWidth());
+						deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
+					}
+				});
 			}
 		}
 		this.setVisible(true);
@@ -57,20 +57,20 @@ public class PanneauPlateau extends JPanel {
 	}
 
 	public PanneauPlateau() {
-		
+
 	}
 	public void deplacerAgent(int newPosX, int newPosY){
 		int oldPosX=this.p.getAgent().getPosX();
 		int oldPosY = this.p.getAgent().getPosY();
 		this.p.deplacerAgent(newPosY, newPosX);
-		
+
 		CombinedIcon cio = (CombinedIcon) this.buttons[oldPosX][oldPosY].getIcon();
-		
+
 		CombinedIcon ci = (CombinedIcon) this.buttons[newPosY][newPosX].getIcon();
 		ci.add(cio.getLastImageIcon(), this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
-				
+
 		cio.removeLast();
-		
+
 		this.setSkinAfterMovement(ci, newPosY, newPosX);
 		this.setSkinAfterMovement(cio, oldPosX, oldPosY);
 		this.refresh();
@@ -113,44 +113,61 @@ public class PanneauPlateau extends JPanel {
 	// Assigne un Skin aux diff�rentes cases
 	public CombinedIcon Skin(int i, int j) {
 		ImageIcon c = new ImageIcon("Case.png");
+		if(i==0)
+			c = new ImageIcon("CaseBordure1.png");
+		if(i==this.buttons.length-1)
+			c = new ImageIcon("CaseBordure2.png");
+		if(j==0)
+			c = new ImageIcon("CaseBordure3.png");
+		if(j==this.buttons.length-1)
+			c = new ImageIcon("CaseBordure4.png");
+		if(i==0&&j==0)
+			c = new ImageIcon("CaseBordure6.png");
+		if(i==0&&j==buttons.length-1)
+			c = new ImageIcon("CaseBordure5.png");		
+		if(i==buttons.length-1&&j==0)
+			c = new ImageIcon("CaseBordure7.png");	
+		if(i==buttons.length-1&&j==buttons.length-1)
+			c = new ImageIcon("CaseBordure8.png");
+
 		CombinedIcon ci = new CombinedIcon();
-		ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+		ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 
 		if (p.getCase(i, j).isMurHaut()) {
 			c = new ImageIcon("Mur_h.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 
 		if (p.getCase(i, j).isMurDroit()) {
 			c = new ImageIcon("Mur_d.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if (p.getCase(i, j).isMurBas()) {
 			c = new ImageIcon("Mur_b.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if (p.getCase(i, j).isMurGauche()) {
 			c = new ImageIcon("Mur_g.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if(p.getCase(i, j).isWumpus()){
 			c = new ImageIcon("wumpus.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if(p.getCase(i, j).isPuit()){
 			c = new ImageIcon("puit.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if(p.getCase(i, j).isTresor()){
 			c = new ImageIcon("tresor.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
 		if(i==this.p.getSize()-1&&j==0){
 			c = new ImageIcon("Pion_rouge.png");
-			ci.add(c, this.getWidth() / this.buttons.length - 3, this.getHeight() / this.buttons.length - 3);
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
 		}
-			
-	return ci;
+
+		return ci;
 
 	}
 	// Accesseurs

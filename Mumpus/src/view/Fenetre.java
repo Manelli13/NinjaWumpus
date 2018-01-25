@@ -19,7 +19,7 @@ public class Fenetre extends JFrame{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.width = (int)screenSize.getWidth();
 		this.height = (int)screenSize.getHeight();
-		this.setSize(410,430);
+		this.setSize(820,860);
 		//this.setSize(width,height-(height-950));
 		this.setVisible(true);
 		//this.plateau=new Plateau(4);
