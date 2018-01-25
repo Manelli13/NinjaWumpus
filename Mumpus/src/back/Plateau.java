@@ -67,6 +67,8 @@ public class Plateau  {
 		int coefWumpus=0;
 		int coefTresor=0;
 		
+		Boolean prevPuit = false;
+		
 		int nbTresor=1;
 		int nbWumpus=1;
 		for(int i=0; i<size; i++){
@@ -76,30 +78,35 @@ public class Plateau  {
 				generateTresor=Math.random()*(1-0)+coefTresor;
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
-				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0){
+				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0 && prevPuit == false){
 					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/));
 					nbPuit--;
 					generatePuit=0;
+					
+					prevPuit = true;
 					//coefPuit=0;
 				}
 				else if(nbTresor>0&&generateTresor<0.05 && i != size && j != 0){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/));
 					generateTresor=0;
 					nbTresor--;
+					prevPuit = false;
 					//coefTresor=0;
 				}
 				else if(nbWumpus > 0 && generateWumpus < 0.05 && i != size && j != 0 ){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/));
 					generateWumpus=0;
 					nbWumpus--;
+					prevPuit = false;
 					//coefWumpus=0;
 				}
 				else{
 					
-					coefPuit-= 1 / size ;
-					coefWumpus-=1 / size;
-					coefTresor-=1 / size;
+					coefPuit-= 1 / (size - i );
+					coefWumpus-=1 /( size - i) ;
+					coefTresor-=1 / (size - i);
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/));
+					prevPuit = false;
 				}
 				
 			}
