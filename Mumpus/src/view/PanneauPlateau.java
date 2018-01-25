@@ -7,7 +7,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.util.Scanner;
 import javax.swing.JPanel;
@@ -71,9 +73,12 @@ public class PanneauPlateau extends JPanel {
 
 		cio.removeLast();
 
+		
 		this.setSkinAfterMovement(ci, newPosY, newPosX);
 		this.setSkinAfterMovement(cio, oldPosX, oldPosY);
 		this.refresh();
+		
+		popup(newPosY, newPosX);
 	}
 	public void setPanneauPlateau(Plateau p) {
 		this.p = p;
@@ -169,6 +174,86 @@ public class PanneauPlateau extends JPanel {
 
 		return ci;
 
+	}
+	
+	public void popup(int newPosY, int newPosX ){
+		if(p.getCase(newPosY,newPosX).isPuit())
+		{
+			JOptionPane jop = new JOptionPane();
+		
+			
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			
+			if(option == JOptionPane.OK_OPTION){
+				
+				setVisible(false); 
+			
+				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
+
+			}
+			if(option == JOptionPane.NO_OPTION){
+				
+				setVisible(false); 
+				plat.dispose();
+				
+				
+				Fenetre fen  = new Fenetre();
+						
+			}
+		}
+		
+		if(p.getCase(newPosY,newPosX).isWumpus())
+		{
+			JOptionPane jop = new JOptionPane();
+		
+			
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			
+			if(option == JOptionPane.OK_OPTION){
+				
+				setVisible(false); 
+			
+				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
+
+			}
+			if(option == JOptionPane.NO_OPTION){
+				
+				setVisible(false); 
+				plat.dispose();
+				
+				
+				Fenetre fen  = new Fenetre();
+						
+			}
+		}
+		
+		if(p.getCase(newPosY,newPosX).isTresor())
+		{
+			JOptionPane jop = new JOptionPane();
+		
+			
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagné !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+
+			
+			if(option == JOptionPane.OK_OPTION){
+				
+				setVisible(false); 
+			
+				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
+
+			}
+			if(option == JOptionPane.NO_OPTION){
+				
+				setVisible(false); 
+				plat.dispose();
+				
+				
+				Fenetre fen  = new Fenetre();
+						
+			}
+		}
 	}
 	// Accesseurs
 	// ____________________________________________________________________
