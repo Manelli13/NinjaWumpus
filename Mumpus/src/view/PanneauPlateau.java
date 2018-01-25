@@ -51,7 +51,7 @@ public class PanneauPlateau extends JPanel {
 			}
 		}
 		this.setVisible(true);
-		this.deplacerAgent(0, 0);
+		this.deplacerAgent(0, this.p.getSize() - 1);
 
 		System.out.println("Nope");
 	}
