@@ -30,7 +30,7 @@ public class Fenetre extends JFrame{
 	public void lancerPartie(int platesize, int height, int width) {
 		this.plateau=new Plateau(platesize);
 		PanneauPlateau pan =new PanneauPlateau(plateau, this);
-		pan.setSize(400,400);
+		//pan.setSize(400,400);
 		this.setContentPane(pan);
 	}
 	public static void main (String[] args){
