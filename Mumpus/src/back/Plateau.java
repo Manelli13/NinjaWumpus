@@ -1,10 +1,13 @@
 package back;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-public class Plateau {
+public class Plateau  {
 	private ArrayList<Case> cases;
 	private int size;
 	private Joueur agent;
+
 	private ArrayList<Case> cheminDijkstra;
 	public Plateau (int size){
 		this.size=size;
@@ -13,6 +16,7 @@ public class Plateau {
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
+
 		findPuit();
 		System.out.println();
 		System.out.println("______________________________________________________");
@@ -20,6 +24,7 @@ public class Plateau {
 		System.out.println();
 		System.out.println("______________________________________________________");
 		System.out.println("Wumpus : ("+findWumpus().getPosX()+";"+findWumpus().getPosY()+")");
+
 	}
 	
 	public void placerMur(){
@@ -252,6 +257,23 @@ public class Plateau {
 	}
 	
 	
+
+
+
+	 /*   if(keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN]){
+	        p.y -= 5;
+	    }
+
+	    if(keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT]){
+	        p.x += 5;
+	    }
+
+	    if(keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT]){
+	        p.x -= 5;
+	    }*/
+	
+	
+	
 	//_________________________________________GETSET
 	public ArrayList<Case> getCases() {
 		return cases;
@@ -275,5 +297,6 @@ public class Plateau {
 	public Joueur getAgent(){
 		return this.agent;
 	}
+
 
 }

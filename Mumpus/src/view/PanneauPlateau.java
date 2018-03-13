@@ -182,7 +182,7 @@ public class PanneauPlateau extends JPanel {
 			JOptionPane jop = new JOptionPane();
 		
 			ImageIcon icon = new ImageIcon("putindance.gif");
-			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdu !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 			
 			if(option == JOptionPane.OK_OPTION){
@@ -208,7 +208,7 @@ public class PanneauPlateau extends JPanel {
 			JOptionPane jop = new JOptionPane();
 		
 			ImageIcon icon = new ImageIcon("paresseux2.gif");
-			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdu !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 			
 			if(option == JOptionPane.OK_OPTION){
@@ -234,7 +234,7 @@ public class PanneauPlateau extends JPanel {
 			JOptionPane jop = new JOptionPane();
 		
 			ImageIcon icon = new ImageIcon("win.gif");
-			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagné !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,icon);
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagné !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 			
 			if(option == JOptionPane.OK_OPTION){
