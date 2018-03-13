@@ -2,9 +2,12 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import back.Case;
+import back.CaseDijkstra;
 import back.Plateau;
 
 public class Fenetre extends JFrame{
@@ -19,7 +22,7 @@ public class Fenetre extends JFrame{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.width = (int)screenSize.getWidth();
 		this.height = (int)screenSize.getHeight();
-		this.setSize(410,430);
+		this.setSize(820,860);
 		//this.setSize(width,height-(height-950));
 		this.setVisible(true);
 		//this.plateau=new Plateau(4);
@@ -32,6 +35,13 @@ public class Fenetre extends JFrame{
 		PanneauPlateau pan =new PanneauPlateau(plateau, this);
 		pan.setSize(400,400);
 		this.setContentPane(pan);
+		try {
+			CaseDijkstra soluce = plateau.resolveMumpusIteratif(plateau.findFirstCase(), plateau.caseTresor());
+			//System.out.println(soluce.size());
+			System.out.println(soluce.chemin());
+		} catch (Exception e){
+			
+		}
 	}
 	public static void main (String[] args){
 		Fenetre fen = new Fenetre();

@@ -97,8 +97,8 @@ public class PanneauMenu extends JPanel implements ActionListener{
 		if(e.getSource()==this.textField){
 			this.taillePlateau = Integer.parseInt(this.textField.getText());
 			this.titre.setText("Taille entree");
-			if (this.taillePlateau <7)
-				this.taillePlateau=7;
+			if (this.taillePlateau <4)
+				this.taillePlateau=4;
 			if (this.taillePlateau>30)
 				this.taillePlateau=30;
 			this.fen.lancerPartie(this.taillePlateau, this.getWidth(),this.getHeight());
