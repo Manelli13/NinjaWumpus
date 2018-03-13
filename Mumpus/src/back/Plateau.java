@@ -13,12 +13,13 @@ public class Plateau {
 		this.generateCase();
 		this.placerMur();
 		this.agent= new Joueur(size-1, 0);
-		try {
-			ArrayList<Case> soluce = this.resolveMumpus(findFirstCase());
-		} catch (Exception e){
-			
-		}
-		
+		findPuit();
+		System.out.println();
+		System.out.println("______________________________________________________");
+		findTresor();
+		System.out.println();
+		System.out.println("______________________________________________________");
+		System.out.println("Wumpus : ("+findWumpus().getPosX()+";"+findWumpus().getPosY()+")");
 	}
 	
 	public void placerMur(){
@@ -60,13 +61,15 @@ public class Plateau {
 	
 	
 	public void generateCase(){
-		int nbPuit=this.size-1;
+		double nbPuit=this.size-1;
 		double generatePuit=0;
 		double generateTresor = 0;
 		double generateWumpus = 0;
 		int coefPuit=0;
 		int coefWumpus=0;
 		int coefTresor=0;
+		
+		Boolean prevPuit = false;
 		
 		int nbTresor=1;
 		int nbWumpus=1;
@@ -77,35 +80,43 @@ public class Plateau {
 				generateTresor=Math.random()*(1-0)+coefTresor;
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
-				if(nbPuit>0 &&generatePuit<0.5){
+				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0 && prevPuit == false){
 					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/));
 					nbPuit--;
 					generatePuit=0;
-					coefPuit=0;
+					
+					prevPuit = true;
+					//coefPuit=0;
 				}
-				else if(nbTresor>0&&generateTresor<0.30){
+				else if(nbTresor>0&&generateTresor<0.05 && i != size && j != 0){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/));
 					generateTresor=0;
 					nbTresor--;
-					coefTresor=0;
+					prevPuit = false;
+					//coefTresor=0;
 				}
-				else if(nbWumpus > 0 && generateWumpus < 0.30){
+				else if(nbWumpus > 0 && generateWumpus < 0.05 && i != size && j != 0 ){
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/));
 					generateWumpus=0;
 					nbWumpus--;
-					coefWumpus=0;
+					prevPuit = false;
+					//coefWumpus=0;
 				}
 				else{
 					
-					coefPuit-=0.10;
-					coefWumpus-=0.10;
-					coefTresor-=0.10;
+					coefPuit-= 1 / (size - i );
+					coefWumpus-=1 /( size - i) ;
+					coefTresor-=1 / (size - i);
 					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/));
+					prevPuit = false;
 				}
 				
 			}
+			
+
 		}
-	}
+		
+		}
 	
 	
 	public Case findWumpus(){
@@ -119,57 +130,88 @@ public class Plateau {
 		return cwumpus;
 	}
 	
-	
-	
-	
-	public Case[] generateVoisin(Case c) {
-		Case [] tabVoisin = new Case[4];
+	public ArrayList<CaseDijkstra> generateVoisin(CaseDijkstra c) {
+		ArrayList<CaseDijkstra> tabVoisin = new ArrayList<CaseDijkstra>();
 		
 		for(Case ca : cases) {
 			if(ca.getPosX() == c.getPosX()-1 && ca.getPosY() == c.getPosY()){
-				tabVoisin[0]=ca;
+				tabVoisin.add(new CaseDijkstra(c, ca));
 			}
 			if(ca.getPosX() == c.getPosX() && ca.getPosY() == c.getPosY()+1){
-				tabVoisin[1]=ca;	
+				tabVoisin.add(new CaseDijkstra(c, ca));	
 			}
 			if(ca.getPosX() == c.getPosX()+1 && ca.getPosY() == c.getPosY()){
-				tabVoisin[2]=ca;
+				tabVoisin.add(new CaseDijkstra(c, ca));
 			}
 			if(ca.getPosX() == c.getPosX() && ca.getPosY() == c.getPosY()-1){
-				tabVoisin[3]=ca;
+				tabVoisin.add(new CaseDijkstra(c, ca));
 			}
-
 		}
 		
 		return tabVoisin;
 	}
 	
+	ArrayList<Case> dejaVu = new ArrayList<Case>();
 	
-	public ArrayList<Case> resolveMumpus(Case c) {
-		System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+	
+//	public ArrayList<Case> resolveMumpus(Case c) {
+//		System.out.print("("+c.getPosX()+";"+c.getPosY()+"); ");
+//		
+//		if(c.isTresor()) {
+//			return this.cheminDijkstra;
+//		}else{
+//		
+//		ArrayList<CaseDijkstra> voisin = generateVoisin(c);
+//		
+//			for(Case cas : voisin) {
+//				if (cas != null && !cas.isPuit() && !cas.isWumpus()) {
+//					if(!dejaVu.contains(cas)) {
+//						dejaVu.add(cas);
+//						this.cheminDijkstra.add(c);
+//						return resolveMumpus(cas);
+//					}
+//				}
+//			}
+//		}
+//		return cheminDijkstra;
+//	}
+	
+	public CaseDijkstra resolveMumpusIteratif(Case pion, Case arrivee) {
 		
-		if(c.isTresor()) {
-			return this.cheminDijkstra;
-		}else{
+		ArrayList<CaseDijkstra> casesTestees = new ArrayList<CaseDijkstra>(); //Cases testees contiendra toutes les cases dont on a teste les voisins
+		ArrayList<CaseDijkstra> casesATester = new ArrayList<CaseDijkstra>();
+		ArrayList<CaseDijkstra> casesVoisines = new ArrayList<CaseDijkstra>();
+		CaseDijkstra solutionTrouvee = null;
 		
-		Case[] voisin = generateVoisin(c);
+		casesATester.add(new CaseDijkstra(null,pion));
 		
-			if (voisin[0] != null && !voisin[0].isPuit() && !voisin[0].isWumpus()) {
-				this.cheminDijkstra.add(c);
-				return resolveMumpus(voisin[0]);
-			}else if (voisin[1] != null &&  !voisin[1].isPuit()&& !voisin[1].isWumpus()){
-				this.cheminDijkstra.add(c);
-				return resolveMumpus(voisin[1]);
-			}else if (voisin[2] != null && !voisin[2].isPuit()&& !voisin[2].isWumpus()){
-				this.cheminDijkstra.add(c);
-				return resolveMumpus(voisin[2]);
-			}else{
-				this.cheminDijkstra.add(c);
-				return resolveMumpus(voisin[3]);
+		while (casesATester.size()!=0 && solutionTrouvee==null) //Tant qu'il reste encore des cases a tester et qu'on a pas trouve de solution
+		{
+			if (!casesTestees.contains(casesATester.get(0)))
+			{
+				if (casesATester.get(0).isTresor()) {
+					solutionTrouvee = casesATester.get(0);
+				}
+				
+				else {
+					casesVoisines = generateVoisin(casesATester.get(0));
+					for(CaseDijkstra c : casesVoisines) {
+						if (c != null && !c.isPuit() && !c.isWumpus()) {
+							casesATester.add(c);
+						}
+					}
+				}
 			}
+			
+			casesTestees.add(casesATester.get(0));
+			casesATester.remove(0);
+			
 		}
+		
+		return solutionTrouvee;
 	}
 	
+	//Retourne la case de depart
 	public Case findFirstCase() {
 		Case firstCase = new Case();
 		for(Case c : cases) {
@@ -179,6 +221,34 @@ public class Plateau {
 			
 		}
 		return firstCase;
+	}
+	
+	//Affiche la case du trésor
+	public void findTresor() {
+		for(Case c : cases) {
+			if(c.isTresor()) {
+				System.out.print("Tresor : ("+c.getPosX()+";"+c.getPosY()+"); ");
+			}
+		}
+	}
+	
+	//Retourne la case du trésor
+	public Case caseTresor() {
+		Case tresor = new Case();
+		for(Case c : cases) {
+			if(c.isTresor()) {
+				tresor = c;
+			}
+		}
+		return tresor;
+	}
+	
+	public void findPuit() {
+		for(Case c : cases) {
+			if(c.isPuit()) {
+				System.out.print("Puit : ("+c.getPosX()+";"+c.getPosY()+"); ");
+			}
+		}
 	}
 	
 	
