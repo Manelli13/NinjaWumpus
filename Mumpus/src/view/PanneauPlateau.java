@@ -234,7 +234,7 @@ public class PanneauPlateau extends JPanel {
 			JOptionPane jop = new JOptionPane();
 		
 			ImageIcon icon = new ImageIcon("win.gif");
-			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagné !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagnï¿½ !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
 			
 			if(option == JOptionPane.OK_OPTION){
@@ -282,4 +282,16 @@ public class PanneauPlateau extends JPanel {
 		this.setVisible(false);
 		this.setVisible(true);
 	}
+
+	public JButton[][] getButtons() {
+		return buttons;
+	}
+
+	public void setButtons(JButton[][] buttons) {
+		this.buttons = buttons;
+	}
+	
+	
+	
+	
 }
