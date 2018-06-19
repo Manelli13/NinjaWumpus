@@ -88,10 +88,7 @@ public class PanneauPlateau extends JPanel {
 			}catch(Exception e) {
 				System.out.println("C'est BALO :noel:");
 			}
-		
-		
 	}
-	
 	public void deplacerAgent(int newPosX, int newPosY){
 		int oldPosX=this.p.getAgent().getPosX();
 		int oldPosY = this.p.getAgent().getPosY();
