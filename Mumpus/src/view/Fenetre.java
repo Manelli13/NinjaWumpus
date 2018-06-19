@@ -31,11 +31,11 @@ public class Fenetre extends JFrame{
 		this.plateau=new Plateau(platesize);
 		PanneauPlateau pan =new PanneauPlateau(plateau, this);
 		//pan.setSize(400,400);
-		try {
+		/**try {
 			System.out.println(this.plateau.resolveMumpusIteratif(this.plateau.findFirstCase(), this.plateau.caseTresor()).chemin(pan, this));
 		}catch(Exception e) {
 			
-		}
+		}**/
 		this.setContentPane(pan);
 		
 	}
