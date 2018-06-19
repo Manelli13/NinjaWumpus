@@ -3,11 +3,13 @@ package back;
 public class Joueur {
 	int posX;
 	int posY;
+	boolean munition;
 	
 	public Joueur(int posX, int posY) {
 		super();
 		this.posX = posX;
 		this.posY = posY;
+		this.munition = true;
 	}
 	public boolean capteurMort(){
 		return true;
@@ -45,4 +47,11 @@ public class Joueur {
 	public void setPosY(int posY) {
 		this.posY = posY;
 	}
+	public boolean isMunition() {
+		return munition;
+	}
+	public void tirer() {
+		this.munition = false;
+	}
+	
 }

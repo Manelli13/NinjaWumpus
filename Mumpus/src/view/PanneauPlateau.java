@@ -47,7 +47,9 @@ public class PanneauPlateau extends JPanel {
 					public void mousePressed(MouseEvent e) {
 						JButton a = (JButton) e.getSource();
 						//System.out.println(a.getX()/a.getWidth());
-						deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
+						//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
+						IA();
+
 					}
 				});
 			}
@@ -61,6 +63,35 @@ public class PanneauPlateau extends JPanel {
 	public PanneauPlateau() {
 
 	}
+
+	public void IA () {
+		
+		this.Joueur=this.p.getAgent();
+			try {
+				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
+				if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurHaut())
+					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()-1);
+				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurDroit())
+					deplacerAgent(this.Joueur.getPosY()+1,this.Joueur.getPosX());
+				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurGauche())
+					deplacerAgent(this.Joueur.getPosY()-1,this.Joueur.getPosX());
+				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurBas())
+					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()+1);
+				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isTresor())
+					return;
+				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isPuit())
+					return;
+				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isWumpus())
+					return;
+				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
+				Thread.sleep(1000);
+			}catch(Exception e) {
+				System.out.println("C'est BALO :noel:");
+			}
+		
+		
+	}
+	
 	public void deplacerAgent(int newPosX, int newPosY){
 		int oldPosX=this.p.getAgent().getPosX();
 		int oldPosY = this.p.getAgent().getPosY();
@@ -73,7 +104,7 @@ public class PanneauPlateau extends JPanel {
 
 		cio.removeLast();
 
-		
+
 		this.setSkinAfterMovement(ci, newPosY, newPosX);
 		this.setSkinAfterMovement(cio, oldPosX, oldPosY);
 		this.refresh();
@@ -175,83 +206,83 @@ public class PanneauPlateau extends JPanel {
 		return ci;
 
 	}
-	
+
 	public void popup(int newPosY, int newPosX ){
 		if(p.getCase(newPosY,newPosX).isPuit())
 		{
 			JOptionPane jop = new JOptionPane();
-		
+
 			ImageIcon icon = new ImageIcon("putindance.gif");
 			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
-			
+
 			if(option == JOptionPane.OK_OPTION){
-				
+
 				setVisible(false); 
-			
+
 				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
 
 			}
 			if(option == JOptionPane.NO_OPTION){
-				
+
 				setVisible(false); 
 				plat.dispose();
-				
-				
+
+
 				Fenetre fen  = new Fenetre();
-						
+
 			}
 		}
-		
+
 		if(p.getCase(newPosY,newPosX).isWumpus())
 		{
 			JOptionPane jop = new JOptionPane();
-		
+
 			ImageIcon icon = new ImageIcon("paresseux2.gif");
 			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Perdue !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
-			
+
 			if(option == JOptionPane.OK_OPTION){
-				
+
 				setVisible(false); 
-			
+
 				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
 
 			}
 			if(option == JOptionPane.NO_OPTION){
-				
+
 				setVisible(false); 
 				plat.dispose();
-				
-				
+
+
 				Fenetre fen  = new Fenetre();
-						
+
 			}
 		}
-		
+
 		if(p.getCase(newPosY,newPosX).isTresor())
 		{
 			JOptionPane jop = new JOptionPane();
-		
+
 			ImageIcon icon = new ImageIcon("win.gif");
 			int option = jop.showConfirmDialog(null, "Voulez vous recommencez ?","Gagn� !", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
 
-			
+
 			if(option == JOptionPane.OK_OPTION){
-				
+
 				setVisible(false); 
-			
+
 				plat.lancerPartie(p.getSize(),plat.getHeight(), plat.getWidth());
 
 			}
 			if(option == JOptionPane.NO_OPTION){
-				
+
 				setVisible(false); 
 				plat.dispose();
-				
-				
+
+
 				Fenetre fen  = new Fenetre();
-						
+
 			}
 		}
 	}
@@ -290,8 +321,8 @@ public class PanneauPlateau extends JPanel {
 	public void setButtons(JButton[][] buttons) {
 		this.buttons = buttons;
 	}
-	
-	
-	
-	
+
+
+
+
 }

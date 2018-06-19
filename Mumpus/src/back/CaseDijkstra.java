@@ -22,7 +22,7 @@ public class CaseDijkstra extends Case {
 	}
 
 	public CaseDijkstra(CaseDijkstra pere, Case c) {
-		super(c.getPosX(), c.getPosY(), c.isMurDroit(), c.isMurGauche(), c.isMurHaut(), c.isMurBas(), c.isPuit(), c.isTresor(), c.isWumpus());
+		super(c.getPosX(), c.getPosY(), c.isMurDroit(), c.isMurGauche(), c.isMurHaut(), c.isMurBas(), c.isPuit(), c.isTresor(), c.isWumpus(), c.isBrise(), c.isOdeur());
 		this.pere=pere;
 	}
 	

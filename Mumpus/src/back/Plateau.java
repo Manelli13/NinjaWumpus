@@ -15,6 +15,7 @@ public class Plateau  {
 		this.cheminDijkstra=new ArrayList<Case>();
 		this.generateCase();
 		this.placerMur();
+		this.generateBriseAndOdeur();
 		this.agent= new Joueur(size-1, 0);
 
 		findPuit();
@@ -86,22 +87,21 @@ public class Plateau  {
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
 				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0 && prevPuit == false){
-					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/));
+					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/, false/*brise*/, false/*odeur*/));
 					nbPuit--;
 					generatePuit=0;
-					
 					prevPuit = true;
 					//coefPuit=0;
 				}
 				else if(nbTresor>0&&generateTresor<0.05 && i != size && j != 0){
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/));
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
 					generateTresor=0;
 					nbTresor--;
 					prevPuit = false;
 					//coefTresor=0;
 				}
 				else if(nbWumpus > 0 && generateWumpus < 0.05 && i != size && j != 0 ){
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/));
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/,false/*brise*/, false/*odeur*/));
 					generateWumpus=0;
 					nbWumpus--;
 					prevPuit = false;
@@ -112,7 +112,7 @@ public class Plateau  {
 					coefPuit-= 1 / (size - i );
 					coefWumpus-=1 /( size - i) ;
 					coefTresor-=1 / (size - i);
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/));
+					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
 					prevPuit = false;
 				}
 				
@@ -228,7 +228,7 @@ public class Plateau  {
 		return firstCase;
 	}
 	
-	//Affiche la case du trésor
+	//Affiche la case du trï¿½sor
 	public void findTresor() {
 		for(Case c : cases) {
 			if(c.isTresor()) {
@@ -237,7 +237,7 @@ public class Plateau  {
 		}
 	}
 	
-	//Retourne la case du trésor
+	//Retourne la case du trï¿½sor
 	public Case caseTresor() {
 		Case tresor = new Case();
 		for(Case c : cases) {
@@ -252,6 +252,22 @@ public class Plateau  {
 		for(Case c : cases) {
 			if(c.isPuit()) {
 				System.out.print("Puit : ("+c.getPosX()+";"+c.getPosY()+"); ");
+			}
+		}
+	}
+	
+	public void generateBriseAndOdeur() {
+		for(Case c : cases) {
+			if(c.isPuit()) {
+				getCase(c.getPosX()-1, c.getPosY()).setBrise(true);
+				getCase(c.getPosX(), c.getPosY()+1).setBrise(true);
+				getCase(c.getPosX()+1, c.getPosY()).setBrise(true);
+				getCase(c.getPosX(), c.getPosY()-1).setBrise(true);
+			}else if(c.isWumpus()) {
+				getCase(c.getPosX()-1, c.getPosY()).setOdeur(true);
+				getCase(c.getPosX(), c.getPosY()+1).setOdeur(true);
+				getCase(c.getPosX()+1, c.getPosY()).setOdeur(true);
+				getCase(c.getPosX(), c.getPosY()-1).setOdeur(true);
 			}
 		}
 	}
