@@ -16,7 +16,7 @@ public class Plateau  {
 		this.generateCase();
 		this.placerMur();
 		this.generateBriseAndOdeur();
-		this.agent= new Joueur(size-1, 0);
+		this.agent= new Joueur(0, size-1);
 
 		findPuit();
 		System.out.println();
@@ -31,13 +31,13 @@ public class Plateau  {
 	public void placerMur(){
 		
 		for(Case c : cases){
-			if (c.getPosX()==0)
+			if (c.getPosY()==0)
 				c.setMurHaut(true);
-			if(c.getPosX()==size-1)
-				c.setMurBas(true);
-			if(c.getPosY()==0)
-				c.setMurGauche(true);
 			if(c.getPosY()==size-1)
+				c.setMurBas(true);
+			if(c.getPosX()==0)
+				c.setMurGauche(true);
+			if(c.getPosX()==size-1)
 				c.setMurDroit(true);
 		}
 	}
@@ -77,42 +77,42 @@ public class Plateau  {
 		
 		Boolean prevPuit = false;
 		
-		int nbTresor=1;
-		int nbWumpus=1;
-		for(int i=0; i<size; i++){
-			for(int j=0; j<size; j++){
+		int nbTresor=0;
+		int nbWumpus=0;
+		for(int y=0; y<size; y++){
+			for(int x=0; x<size; x++){
 				
 				generatePuit=Math.random()*(1-0)+coefPuit;
 				generateTresor=Math.random()*(1-0)+coefTresor;
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
-				if(nbPuit>0 &&generatePuit<0.10 && i != size && j != 0 && prevPuit == false){
-					cases.add(new Case( i,j,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/, false/*brise*/, false/*odeur*/));
+				if(nbPuit>0 &&generatePuit<0.10 && y != size-1 && x != 0 && prevPuit == false){
+					cases.add(new Case( x, y ,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/, false/*brise*/, false/*odeur*/));
 					nbPuit--;
 					generatePuit=0;
 					prevPuit = true;
 					//coefPuit=0;
 				}
-				else if(nbTresor>0&&generateTresor<0.05 && i != size && j != 0){
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
+				else if(nbTresor == 0&&generateTresor<0.05 && y != size-1 && x != 0){
+					cases.add(new Case( x, y ,false,false,false,false, false/*puit*/,true/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
 					generateTresor=0;
-					nbTresor--;
+					nbTresor++;
 					prevPuit = false;
 					//coefTresor=0;
 				}
-				else if(nbWumpus > 0 && generateWumpus < 0.05 && i != size && j != 0 ){
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/,false/*brise*/, false/*odeur*/));
+				else if(nbWumpus == 0 && generateWumpus < 0.05 && y != size-1 && x != 0 ){
+					cases.add(new Case( x, y ,false,false,false,false, false/*puit*/,false/*tresor*/,true/*wumpus*/,false/*brise*/, false/*odeur*/));
 					generateWumpus=0;
-					nbWumpus--;
+					nbWumpus++;
 					prevPuit = false;
 					//coefWumpus=0;
 				}
 				else{
 					
-					coefPuit-= 1 / (size - i );
-					coefWumpus-=1 /( size - i) ;
-					coefTresor-=1 / (size - i);
-					cases.add(new Case( i,j,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
+					coefPuit-= 1 / (size - y );
+					coefWumpus-=1 /( size - y) ;
+					coefTresor-=1 / (size - y);
+					cases.add(new Case( x,y,false,false,false,false, false/*puit*/,false/*tresor*/,false/*wumpus*/,false/*brise*/, false/*odeur*/));
 					prevPuit = false;
 				}
 				
@@ -257,17 +257,30 @@ public class Plateau  {
 	}
 	
 	public void generateBriseAndOdeur() {
+		
 		for(Case c : cases) {
+			Case c1=getCase(c.getPosX()-1, c.getPosY());
+			Case c2=getCase(c.getPosX(), c.getPosY()+1);
+			Case c3=getCase(c.getPosX()+1, c.getPosY());
+			Case c4=getCase(c.getPosX(), c.getPosY()-1);
 			if(c.isPuit()) {
-				getCase(c.getPosX()-1, c.getPosY()).setBrise(true);
-				getCase(c.getPosX(), c.getPosY()+1).setBrise(true);
-				getCase(c.getPosX()+1, c.getPosY()).setBrise(true);
-				getCase(c.getPosX(), c.getPosY()-1).setBrise(true);
+				if(c1!=null)
+					c1.setBrise(true);
+				if(c2!=null)
+					c2.setBrise(true);
+				if(c3!=null)
+					c3.setBrise(true);
+				if(c4!=null)
+					c4.setBrise(true);
 			}else if(c.isWumpus()) {
-				getCase(c.getPosX()-1, c.getPosY()).setOdeur(true);
-				getCase(c.getPosX(), c.getPosY()+1).setOdeur(true);
-				getCase(c.getPosX()+1, c.getPosY()).setOdeur(true);
-				getCase(c.getPosX(), c.getPosY()-1).setOdeur(true);
+				if(c1!=null)
+					c1.setOdeur(true);
+				if(c2!=null)
+					c2.setOdeur(true);
+				if(c3!=null)
+					c3.setOdeur(true);
+				if(c4!=null)
+					c4.setOdeur(true);
 			}
 		}
 	}
@@ -299,7 +312,7 @@ public class Plateau  {
 			if(c.getPosX()==x&&c.getPosY()==y)
 				return c;
 		}
-		return this.cases.get(0);
+		return null;
 	}
 	public void setCases(ArrayList<Case> cases) {
 		this.cases = cases;
