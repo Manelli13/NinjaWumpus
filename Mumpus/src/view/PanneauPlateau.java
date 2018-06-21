@@ -49,7 +49,22 @@ public class PanneauPlateau extends JPanel {
 						JButton a = (JButton) e.getSource();
 						//System.out.println(a.getX()/a.getWidth());
 						//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
-						getIa().IA();
+						Thread IAthread = new Thread() {
+						    public void run() {
+						    	for(int i=0; i<100;i++) {
+						    		try {
+										Thread.sleep(200);
+									} catch (InterruptedException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+						    		getIa().IA();
+						    	}
+						    }  
+						};
+
+						IAthread.start();
+						
 
 					}
 				});

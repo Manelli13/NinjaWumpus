@@ -11,10 +11,14 @@ public class IAclass {
 	private int riskCase[];
 	private Plateau plat;
 	private PanneauPlateau p;
+	private ArrayList<Case> caseHumide;
+	private ArrayList<Case> puitsPotentiel;
 
 
 	public IAclass(Plateau plat, PanneauPlateau p) {
+		puitsPotentiel = new ArrayList<Case>();
 		this.caseOdorante = new ArrayList<Case>();
+		this.caseHumide = new ArrayList<Case>();
 		this.plat = plat;
 		this.p=p;
 		IAclass.casesVues=new ArrayList<Case>();
@@ -36,42 +40,77 @@ public class IAclass {
 		if(currentCase.isWumpus() || currentCase.isPuit()) {
 			System.out.println("Vous etes mort dévoré d'une noyade");
 			return false;
-			
+
 		}
 
 		if (!casesVues.contains(currentCase))
 			casesVues.add(currentCase);
-
-		this.riskCase[0] = evaluateRisk(plat.getCase(x+1, y));
-		this.riskCase[1] = evaluateRisk(plat.getCase(x-1, y));
-		this.riskCase[2] = evaluateRisk(plat.getCase(x, y+1));
-		this.riskCase[3] = evaluateRisk(plat.getCase(x, y-1));
-
-		int min1,min2,min;
-		min1 = Math.min(this.riskCase[0], this.riskCase[1]);
-		min2 = Math.min(this.riskCase[2], this.riskCase[3]);
-		min = Math.min(min1, min2);
-
+		
+		if (currentCase.isBrise()) {
+			caseHumide.add(currentCase);
+		}
 		if(currentCase.isOdeur()) {
+			this.caseOdorante.add(currentCase);
 			Case ca = findWumpus(currentCase);
 			shotWumpus(ca);
 		}
-		
-		//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
-		if(this.riskCase[0] == min) {
-			x++;
+		if (!currentCase.isBrise()&&!currentCase.isOdeur()) {
+			this.riskCase[0] = evaluateRisk(plat.getCase(x+1, y));
+			this.riskCase[1] = evaluateRisk(plat.getCase(x-1, y));
+			this.riskCase[2] = evaluateRisk(plat.getCase(x, y+1));
+			this.riskCase[3] = evaluateRisk(plat.getCase(x, y-1));
+			
+			int min1,min2,min;
+			min1 = Math.min(this.riskCase[0], this.riskCase[1]);
+			min2 = Math.min(this.riskCase[2], this.riskCase[3]);
+			min = Math.min(min1, min2);
+			
+			ArrayList<Case> leastRiskyCase = new ArrayList();
+			//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
+			if(this.riskCase[0] == min) {
+				leastRiskyCase.add(this.plat.getCase(x+1, y));
+				//			x++;
+			}
+			if(this.riskCase[1] == min) {
+				leastRiskyCase.add(this.plat.getCase(x-1, y));
+				//			x=x-1;
+			}
+			if(this.riskCase[2] == min) {
+				leastRiskyCase.add(this.plat.getCase(x, y+1));
+				//			y++;
+			}
+			if(this.riskCase[3] == min) {
+				leastRiskyCase.add(this.plat.getCase(x, y-1));
+				//			y=y-1;
+			}
+			
+			double rand = (Math.random() * (leastRiskyCase.size()));
+//		int randIndex = (int)((Math.random() * (leastRiskyCase.size() - 1)));
+			int randIndex= (int)rand;
+			//		System.out.println("After : X="+x+"|| Y="+y);
+			//		p.deplacerAgent(x, y);
+			p.deplacerAgent(leastRiskyCase.get(randIndex).getPosX(),leastRiskyCase.get(randIndex).getPosY());
+			
 		}
-		else if(this.riskCase[1] == min) {
-			x=x-1;
+		else {
+			ArrayList<Case> leastRiskyCase = new ArrayList();
+			if(casesVues.contains(plat.getCase(x+1, y))) {
+				leastRiskyCase.add(plat.getCase(x+1, y));
+			}
+			if(casesVues.contains(plat.getCase(x-1, y))) {
+				leastRiskyCase.add(plat.getCase(x-1, y));
+			}
+			if(casesVues.contains(plat.getCase(x, y+1))) {
+				leastRiskyCase.add(plat.getCase(x, y+1));
+			}
+			if(casesVues.contains(plat.getCase(x, y-1))) {
+				leastRiskyCase.add(plat.getCase(x, y-1));
+			}
+			double rand = (Math.random() * (leastRiskyCase.size()));
+			int randIndex= (int)rand;
+			p.deplacerAgent(leastRiskyCase.get(randIndex).getPosX(),leastRiskyCase.get(randIndex).getPosY());
+			
 		}
-		else if(this.riskCase[2] == min) {
-			y++;
-		}
-		else if(this.riskCase[3] == min) {
-			y=y-1;
-		}
-		System.out.println("After : X="+x+"|| Y="+y);
-		p.deplacerAgent(x, y);
 		return false;
 
 	}
@@ -81,10 +120,16 @@ public class IAclass {
 	private void shotWumpus(Case findWumpus) {
 		if(findWumpus != null) {
 			plat.getAgent().tirer();
+			System.out.println("Tirer");
 		}
 	}
 
-
+	private Case findPuit(Case currentCase) {
+		for(Case c : puitsPotentiel) {
+			//TODO
+		}
+		return null;
+	}
 
 	private Case findWumpus(Case currentCase) {
 
@@ -128,36 +173,15 @@ public class IAclass {
 	public int evaluateRisk(Case c) {
 		int risk =0;
 		if (c!=null) {
-//			Case case1 =plat.getCase(c.getPosX()+1, c.getPosY());
-//			Case case2 =plat.getCase(c.getPosX()-1, c.getPosY());
-//			Case case3 =plat.getCase(c.getPosX(), c.getPosY()+1);
-//			Case case4 =plat.getCase(c.getPosX(), c.getPosY()-1);
 			if (casesVues.contains(c)) {
 				if(c.isBrise() || c.isOdeur())
-					risk++;
+					risk+=2;
 				else
-					risk+=10000;
+					risk++;
 			}
 			else {
 				risk=0;
 			}
-//			if(casesVues.contains(case1)) {
-//				if(case1.isBrise() || case1.isOdeur())
-//					risk++;
-//			}
-//			if (casesVues.contains(case2)) {
-//				if(case2.isBrise() || case2.isOdeur())
-//					risk++;
-//			}
-//			if(casesVues.contains(case3)) {
-//				if(case3.isBrise() || case3.isOdeur())
-//					risk++;
-//			}
-//			if(casesVues.contains(case4)) {
-//				if(case4.isBrise() || case4.isOdeur())
-//					risk++;
-//			}
-
 			return risk;
 		}
 		else
