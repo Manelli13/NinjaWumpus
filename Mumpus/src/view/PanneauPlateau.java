@@ -51,9 +51,9 @@ public class PanneauPlateau extends JPanel {
 						//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
 						Thread IAthread = new Thread() {
 						    public void run() {
-						    	for(int i=0; i<100;i++) {
+						    	for(int i=0; i<10000;i++) {
 						    		try {
-										Thread.sleep(200);
+										Thread.sleep(100);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();

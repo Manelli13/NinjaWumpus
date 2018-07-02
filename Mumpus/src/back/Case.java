@@ -131,6 +131,14 @@ public class Case {
 	public void setOdeur(boolean odeur) {
 		this.odeur = odeur;
 	}
+	public boolean equals (Object o) {
+		if (o instanceof Case) {
+			   Case comparedCase = (Case)o;
+			   if (comparedCase.getPosX()==this.getPosX()&&comparedCase.getPosY()==this.getPosY())
+				   return true;
+		}
+		return false;
+	}
 
 	
 }

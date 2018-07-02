@@ -67,7 +67,8 @@ public class Plateau  {
 	
 	
 	public void generateCase(){
-		double nbPuit=this.size-1;
+		int nbPuit=this.size/2;
+		int addedPuit=0;
 		double generatePuit=0;
 		double generateTresor = 0;
 		double generateWumpus = 0;
@@ -86,11 +87,12 @@ public class Plateau  {
 				generateTresor=Math.random()*(1-0)+coefTresor;
 				generateWumpus=Math.random()*(1-0)+coefWumpus;
 					
-				if(nbPuit>0 &&generatePuit<0.10 && y != size-1 && x != 0 && prevPuit == false){
+				if(nbPuit>0 &&generatePuit<0.10 && y != size-1 && x != 0 && prevPuit == false ){
 					cases.add(new Case( x, y ,false,false,false,false, true/*puit*/,false/*tresor*/,false/*wumpus*/, false/*brise*/, false/*odeur*/));
 					nbPuit--;
 					generatePuit=0;
 					prevPuit = true;
+					addedPuit++;
 					//coefPuit=0;
 				}
 				else if(nbTresor == 0&&generateTresor<0.05 && y != size-1 && x != 0){

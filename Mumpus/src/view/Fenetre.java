@@ -13,7 +13,7 @@ public class Fenetre extends JFrame{
 	private Plateau plateau;
 	public Fenetre(){
 		this.setLocation(0,0);
-		this.setTitle("Wumpus : Edition Babtou");
+		this.setTitle("Wumpus : Edition Celestin");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

@@ -44,27 +44,9 @@ public class PanneauMenu extends JPanel implements ActionListener{
 	}*/
 	public void Init(){
 		this.setLayout(null);
-		this.partiePreco=new JButton("Plateau préconstruit//TODO");
-		this.partieAlea=new JButton("Plateau aléatoire");
-		this.load = new JButton ("Load game//TODO");
-		this.tutoriel= new JButton ("Tutoriel//TODO");
-		this.tutoriel.setEnabled(false);
-		this.partiePreco.setEnabled(false);
-		this.load.setEnabled(false);
-		this.tutoriel.addActionListener(this);
-		this.load.addActionListener(this);
-		this.partiePreco.addActionListener(this);
+		this.partieAlea=new JButton("Commencer");
 		this.partieAlea.addActionListener(this);
-		tutoriel.setBounds(this.getWidth()/2-150,550,300,100);
-		partiePreco.setBounds(this.getWidth()/2-150,100,300,100);
 		partieAlea.setBounds(this.getWidth()/2-150,250,300,100);
-		load.setBounds(this.getWidth()/2-150,400,300,100);
-		/*
-		this.partiePreco.setBounds(this.getWidth()/2-150,200,300,100);
-		this.partieAlea.setBounds(this.getWidth()/2-150,450,300,100);*/
-		this.add(this.tutoriel);
-		this.add(this.load);
-		this.add(this.partiePreco);
 		this.add(this.partieAlea);
 	}
 	public void PartieAlea(){
