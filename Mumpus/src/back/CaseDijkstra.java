@@ -43,7 +43,7 @@ public class CaseDijkstra extends Case {
 				sym = convertToArrows(c.getPere(), c) +" | "+ sym;
 				s = "("+c.getPosX()+";"+c.getPosY()+");" + s;
 				CombinedIcon ci = new CombinedIcon();
-				ci = pan.Skin(c.getPosX(), c.getPosY());
+				ci = pan.Skin(c.getPosY(), c.getPosX());
 				ImageIcon img = new ImageIcon("CheminDijkstra.png");
 				ci.add(img, plat.getWidth() / pan.getButtons().length - 3, plat.getHeight() / pan.getButtons().length - 3);
 				pan.setSkinAfterMovement(ci, c.getPosX(),c.getPosY());

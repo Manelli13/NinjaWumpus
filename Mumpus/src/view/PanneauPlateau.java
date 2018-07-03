@@ -71,7 +71,7 @@ public class PanneauPlateau extends JPanel {
 				});
 			}
 		}
-		//this.p.getCaseDijkstra().chemin(this, plat);
+		this.p.getCaseDijkstra().chemin(this, plat);
 		this.setVisible(false);
 		this.setVisible(true);
 		//this.deplacerAgent(0, this.p.getSize() - 1);
