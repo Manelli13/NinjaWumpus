@@ -14,10 +14,14 @@ public class IAclass {
 	private ArrayList<Case> caseHumide;
 	private ArrayList<Case> puitsPotentiel;
 	private Case lastPosition;
+	public static int win=0;
+	public static int loose=0;
+	public static int game=0;
 
 	private int iteration;
 
 	public IAclass(Plateau plat, PanneauPlateau p) {
+		IAclass.game++;
 		puitsPotentiel = new ArrayList<Case>();
 		this.caseOdorante = new ArrayList<Case>();
 		this.caseHumide = new ArrayList<Case>();
@@ -45,11 +49,19 @@ public class IAclass {
 
 		if(currentCase.isTresor()) {
 			System.out.println("Vous avez gagné");
+			IAclass.win++;
+			System.out.println("% Win :"+ (double)IAclass.win/IAclass.game);
+			System.out.println("% loose :"+IAclass.loose/IAclass.game);
+			System.out.println("nbGame :"+IAclass.game);
 			return true;
 
 		}
 		if(currentCase.isWumpus() || currentCase.isPuit()) {
 			System.out.println("Vous etes mort dévoré d'une noyade");
+			IAclass.loose--;
+			System.out.println("% Win :"+ (double)IAclass.win/IAclass.game);
+			System.out.println("% loose :"+IAclass.loose/IAclass.game);
+			System.out.println("nbGame :"+IAclass.game);
 			return true;
 
 		}
