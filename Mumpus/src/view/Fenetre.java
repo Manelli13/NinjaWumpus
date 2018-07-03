@@ -28,6 +28,7 @@ public class Fenetre extends JFrame{
 	}
 	
 	public void lancerPartie(int platesize, int height, int width) {
+		//this.removeAll();
 		this.plateau=new Plateau(platesize);
 		PanneauPlateau pan =new PanneauPlateau(plateau, this);
 		//pan.setSize(400,400);
@@ -37,6 +38,10 @@ public class Fenetre extends JFrame{
 			
 		}**/
 		this.setContentPane(pan);
+		pan.setVisible(false);
+		pan.setVisible(true);
+		//this.setVisible(false);
+		//this.setVisible(true);
 		
 	}
 	public static void main (String[] args){

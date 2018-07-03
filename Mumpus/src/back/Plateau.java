@@ -132,14 +132,14 @@ public class Plateau  {
 				int xTresor=(int)xtemp;
 				int yTresor=(int)ytemp;
 				if(nbWumpus==1) {
-					if(xTresor!=this.agent.getPosX()&&yTresor!=this.agent.getPosY()&&xTresor!=findWumpus().getPosX()&&yTresor!=findWumpus().getPosY()) {
+					if(xTresor!=this.agent.getPosX()&&yTresor!=this.agent.getPosY()&&xTresor!=findWumpus().getPosX()&&yTresor!=findWumpus().getPosY()&&!this.getCase(xTresor, yTresor).isPuit()) {
 						test=false;
 						
 						this.getCase(xTresor, yTresor).setTresor(true);
 					}					
 				}
 				else {
-					if(xTresor!=this.agent.getPosX()&&yTresor!=this.agent.getPosY()) {
+					if(xTresor!=this.agent.getPosX()&&yTresor!=this.agent.getPosY()&&!this.getCase(xTresor, yTresor).isPuit()) {
 						test=false;
 						this.getCase(xTresor, yTresor).setTresor(true);
 					}		
@@ -153,7 +153,7 @@ public class Plateau  {
 				double ytemp = Math.random() * (this.size-1);
 				int xWumpus=(int)xtemp;
 				int yWumpus=(int)ytemp;
-				if(xWumpus!=this.agent.getPosX()&&yWumpus!=this.agent.getPosY()&&xWumpus!=caseTresor().getPosX()&&yWumpus!=caseTresor().getPosY()) {
+				if(xWumpus!=this.agent.getPosX()&&yWumpus!=this.agent.getPosY()&&xWumpus!=caseTresor().getPosX()&&yWumpus!=caseTresor().getPosY()&&!this.getCase(xWumpus, yWumpus).isPuit()) {
 					test=false;
 					
 					this.getCase(xWumpus, yWumpus).setWumpus(true);
