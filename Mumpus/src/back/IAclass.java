@@ -26,9 +26,9 @@ public class IAclass {
 		this .iteration=0;
 		IAclass.casesVues=new ArrayList<Case>();
 	}
-	
+
 	public boolean brain() {
-		if(iteration<100)
+		if(iteration<20)
 			return IA2();
 		else
 			return IA();
@@ -145,7 +145,7 @@ public class IAclass {
 
 		if (!casesVues.contains(currentCase))
 			casesVues.add(currentCase);
-		
+
 		if (currentCase.isBrise()) {
 			caseHumide.add(currentCase);
 			findPuit(currentCase);
@@ -221,7 +221,29 @@ public class IAclass {
 	private void shotWumpus(Case findWumpus) {
 		if(findWumpus != null) {
 			plat.getAgent().tirer();
-			System.out.println("Tirer");
+			if(findWumpus.isWumpus()) {
+				findWumpus.setWumpus(false);
+				Case adjacente1 = plat.getCase(findWumpus.getPosX()+1, findWumpus.getPosY());
+				Case adjacente2 = plat.getCase(findWumpus.getPosX()-1, findWumpus.getPosY());
+				Case adjacente3 = plat.getCase(findWumpus.getPosX(), findWumpus.getPosY()+1);
+				Case adjacente4 = plat.getCase(findWumpus.getPosX(), findWumpus.getPosY()-1);
+				if(adjacente1!=null) {
+					adjacente1.setOdeur((false));
+				}
+				if(adjacente2!=null) {
+					adjacente2.setOdeur((false));
+				}
+				if(adjacente3!=null) {
+					adjacente3.setOdeur((false));
+				}
+				if(adjacente4!=null) {
+					adjacente4.setOdeur((false));
+				}
+
+			}
+
+			System.out.println("Un cri terrible retentit");
+			this.p.killWumpus(findWumpus);
 		}
 	}
 	private Case findWumpus(Case currentCase) {

@@ -71,9 +71,11 @@ public class PanneauPlateau extends JPanel {
 				});
 			}
 		}
+		//this.p.getCaseDijkstra().chemin(this, plat);
+		this.setVisible(false);
 		this.setVisible(true);
 		//this.deplacerAgent(0, this.p.getSize() - 1);
-
+		
 		System.out.println("Nope");
 	}
 
@@ -146,6 +148,65 @@ public class PanneauPlateau extends JPanel {
 		this.setVisible(true);
 	}
 
+	public void killWumpus(Case wumpus) {
+		int y = wumpus.getPosY();
+		int x = wumpus.getPosX();
+		ImageIcon c = new ImageIcon("Case.png");
+		if(y==0)
+			c = new ImageIcon("CaseBordure1.png");
+		if(y==this.buttons.length-1)
+			c = new ImageIcon("CaseBordure2.png");
+		if(x==0)
+			c = new ImageIcon("CaseBordure3.png");
+		if(x==this.buttons.length-1)
+			c = new ImageIcon("CaseBordure4.png");
+		if(x==0&&y==0)
+			c = new ImageIcon("CaseBordure6.png");
+		if(y==0&&x==buttons.length-1)
+			c = new ImageIcon("CaseBordure5.png");		
+		if(y==buttons.length-1&&x==0)
+			c = new ImageIcon("CaseBordure7.png");	
+		if(x==buttons.length-1&&y==buttons.length-1)
+			c = new ImageIcon("CaseBordure8.png");
+
+		CombinedIcon ci = new CombinedIcon();
+		ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+
+		if (p.getCase(x, y).isMurHaut()) {
+			c = new ImageIcon("Mur_h.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+
+		if (p.getCase(x, y).isMurDroit()) {
+			c = new ImageIcon("Mur_d.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if (p.getCase(x, y).isMurBas()) {
+			c = new ImageIcon("Mur_b.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if (p.getCase(x, y).isMurGauche()) {
+			c = new ImageIcon("Mur_g.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if(p.getCase(x, y).isWumpus()){
+			c = new ImageIcon("wumpus.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if(p.getCase(x, y).isPuit()){
+			c = new ImageIcon("puit.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if(p.getCase(x, y).isTresor()){
+			c = new ImageIcon("tresor.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		if(y==this.p.getSize()-1&&x==0){
+			c = new ImageIcon("Pion_rouge.png");
+			ci.add(c, plat.getWidth() / this.buttons.length - 3, plat.getHeight() / this.buttons.length - 3);
+		}
+		this.getButton(x,y).setIcon(ci);
+	}
 	// Methodes
 	// ____________________________________________________________________
 
@@ -304,8 +365,8 @@ public class PanneauPlateau extends JPanel {
 	// ____________________________________________________________________
 
 	// Retourne le bouton de coordonneees (i,j)
-	public JButton getButton(int i, int j) {
-		return this.buttons[i][j];
+	public JButton getButton(int x, int y) {
+		return this.buttons[x][y];
 	}
 
 	// Remplace le bouton demande par le bouton passe en parametre
@@ -327,7 +388,6 @@ public class PanneauPlateau extends JPanel {
 		this.setVisible(false);
 		this.setVisible(true);
 	}
-
 	public JButton[][] getButtons() {
 		return buttons;
 	}
