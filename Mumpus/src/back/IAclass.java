@@ -15,19 +15,30 @@ public class IAclass {
 	private ArrayList<Case> puitsPotentiel;
 	private Case lastPosition;
 
+	private int iteration;
+
 	public IAclass(Plateau plat, PanneauPlateau p) {
 		puitsPotentiel = new ArrayList<Case>();
 		this.caseOdorante = new ArrayList<Case>();
 		this.caseHumide = new ArrayList<Case>();
 		this.plat = plat;
 		this.p=p;
+		this .iteration=0;
 		IAclass.casesVues=new ArrayList<Case>();
+	}
+	
+	public boolean brain() {
+		if(iteration<100)
+			return IA2();
+		else
+			return IA();
 	}
 
 	public boolean IA2() {
+		this.iteration++;
 		int x =this.plat.getAgent().getPosX();
 		int y =this.plat.getAgent().getPosY();
-		System.out.println("Before : X="+x+"|| Y="+y);
+		System.out.println("IA2");
 		this.riskCase = new int[4];
 
 		Case currentCase = plat.getCase(x, y);
@@ -39,7 +50,7 @@ public class IAclass {
 		}
 		if(currentCase.isWumpus() || currentCase.isPuit()) {
 			System.out.println("Vous etes mort dévoré d'une noyade");
-			return false;
+			return true;
 
 		}
 
@@ -56,10 +67,10 @@ public class IAclass {
 			shotWumpus(ca);
 		}
 		if (!currentCase.isBrise()&&!currentCase.isOdeur()) {
-			this.riskCase[0] = evaluateRisk(plat.getCase(x+1, y));
-			this.riskCase[1] = evaluateRisk(plat.getCase(x-1, y));
-			this.riskCase[2] = evaluateRisk(plat.getCase(x, y+1));
-			this.riskCase[3] = evaluateRisk(plat.getCase(x, y-1));
+			this.riskCase[0] = evaluateRisk2(plat.getCase(x+1, y));
+			this.riskCase[1] = evaluateRisk2(plat.getCase(x-1, y));
+			this.riskCase[2] = evaluateRisk2(plat.getCase(x, y+1));
+			this.riskCase[3] = evaluateRisk2(plat.getCase(x, y-1));
 
 			int min1,min2,min;
 			min1 = Math.min(this.riskCase[0], this.riskCase[1]);
@@ -95,7 +106,7 @@ public class IAclass {
 		}
 		else {
 			ArrayList<Case> leastRiskyCase = new ArrayList();
-			/*if(casesVues.contains(plat.getCase(x+1, y))) {
+			if(casesVues.contains(plat.getCase(x+1, y))) {
 				leastRiskyCase.add(plat.getCase(x+1, y));
 			}
 			if(casesVues.contains(plat.getCase(x-1, y))) {
@@ -106,7 +117,7 @@ public class IAclass {
 			}
 			if(casesVues.contains(plat.getCase(x, y-1))) {
 				leastRiskyCase.add(plat.getCase(x, y-1));
-			}*/
+			}
 			double rand = (Math.random() * (leastRiskyCase.size()));
 			int randIndex= (int)rand;
 			p.deplacerAgent(leastRiskyCase.get(randIndex).getPosX(),leastRiskyCase.get(randIndex).getPosY());
@@ -118,7 +129,7 @@ public class IAclass {
 	public boolean IA() {
 		int x =this.plat.getAgent().getPosX();
 		int y =this.plat.getAgent().getPosY();
-		System.out.println("Before : X="+x+"|| Y="+y);
+		System.out.println("IA");
 		this.riskCase = new int[4];
 
 		Case currentCase = plat.getCase(x, y);
@@ -129,7 +140,7 @@ public class IAclass {
 		}
 		if(currentCase.isWumpus() || currentCase.isPuit()) {
 			System.out.println("Vous etes mort dévoré d'une noyade");
-			return false;
+			return true;
 		}
 
 		if (!casesVues.contains(currentCase))

@@ -50,21 +50,22 @@ public class PanneauPlateau extends JPanel {
 						//System.out.println(a.getX()/a.getWidth());
 						//deplacerAgent(a.getX()/a.getWidth(), a.getY()/a.getHeight());
 						Thread IAthread = new Thread() {
-						    public void run() {
-						    	for(int i=0; i<10000;i++) {
-						    		try {
+							public void run() {
+								while(!getIa().brain()) {
+									try {
 										Thread.sleep(100);
 									} catch (InterruptedException e) {
 										// TODO Auto-generated catch block
 										e.printStackTrace();
-									}
-						    		getIa().IA();
-						    	}
-						    }  
-						};
+									}						    		
+								}
+								//this.stop();
+							}
+						} ; 
+
 
 						IAthread.start();
-						
+
 
 					}
 				});
@@ -80,31 +81,31 @@ public class PanneauPlateau extends JPanel {
 
 	}
 
-//	public void IA () {
-//		
-//		this.Joueur=this.p.getAgent();
-//			try {
-//				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
-//				if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurHaut())
-//					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()-1);
-//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurDroit())
-//					deplacerAgent(this.Joueur.getPosY()+1,this.Joueur.getPosX());
-//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurGauche())
-//					deplacerAgent(this.Joueur.getPosY()-1,this.Joueur.getPosX());
-//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurBas())
-//					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()+1);
-//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isTresor())
-//					return;
-//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isPuit())
-//					return;
-//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isWumpus())
-//					return;
-//				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
-//				Thread.sleep(1000);
-//			}catch(Exception e) {
-//				System.out.println("C'est BALO :noel:");
-//			}
-//	}
+	//	public void IA () {
+	//		
+	//		this.Joueur=this.p.getAgent();
+	//			try {
+	//				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
+	//				if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurHaut())
+	//					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()-1);
+	//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurDroit())
+	//					deplacerAgent(this.Joueur.getPosY()+1,this.Joueur.getPosX());
+	//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurGauche())
+	//					deplacerAgent(this.Joueur.getPosY()-1,this.Joueur.getPosX());
+	//				else if(!this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isMurBas())
+	//					deplacerAgent(this.Joueur.getPosY(),this.Joueur.getPosX()+1);
+	//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isTresor())
+	//					return;
+	//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isPuit())
+	//					return;
+	//				else if(this.p.getCase(this.Joueur.getPosX(), this.Joueur.getPosY()).isWumpus())
+	//					return;
+	//				System.out.println("Position X:"+this.Joueur.getPosX()+" Y :"+this.Joueur.getPosY());
+	//				Thread.sleep(1000);
+	//			}catch(Exception e) {
+	//				System.out.println("C'est BALO :noel:");
+	//			}
+	//	}
 	public void deplacerAgent(int newPosX, int newPosY){
 		int oldPosX=this.p.getAgent().getPosX();
 		int oldPosY = this.p.getAgent().getPosY();
@@ -121,7 +122,7 @@ public class PanneauPlateau extends JPanel {
 		this.setSkinAfterMovement(nextIcon, newPosX, newPosY);
 		this.setSkinAfterMovement(previousIcon, oldPosX, oldPosY);
 		this.refresh();
-		
+
 		popup(newPosX, newPosY);
 	}
 	public void setPanneauPlateau(Plateau p) {
